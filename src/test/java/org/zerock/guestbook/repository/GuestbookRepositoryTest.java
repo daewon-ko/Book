@@ -13,12 +13,14 @@ import org.springframework.data.domain.Sort;
 import org.zerock.guestbook.entity.GuestBook;
 import org.zerock.guestbook.entity.QGuestBook;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class GuestbookRepositoryTest {
 
     @Autowired
