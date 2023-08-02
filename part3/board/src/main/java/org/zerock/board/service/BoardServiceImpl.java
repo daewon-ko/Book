@@ -30,6 +30,7 @@ public class BoardServiceImpl implements BoardService {
         log.info("dto: {}", dTo);
 
         Board board = dtoToEntity(dTo);
+        log.info("Board Entity : {}", board);
 
         repository.save(board);
         return board.getBno();
