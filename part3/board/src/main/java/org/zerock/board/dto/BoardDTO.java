@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class BoardDTO {
     private Long bno;
     private String title;
@@ -19,7 +18,8 @@ public class BoardDTO {
     private String writerName;
     private LocalDateTime regDate;
     private LocalDateTime modDate;
-    private int replyCount;
+    @Builder.Default
+    private int replyCount =0; // 해당 게시글의 댓글 수
 }
 
 

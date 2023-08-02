@@ -55,15 +55,21 @@ class BoardRepositoryTest {
 
     }
 
-    @Test
-    public void testReadWithWriter() {
-        Object result = boardRepository.getBoardWithWriter(100L);
-
-        Object[] arr = (Object[]) result;
-
-        System.out.println("------------------");
-        System.out.println(Arrays.toString(arr));
-    }
+//    @Test
+//    public void testReadWithWriter() {
+//        Object result = boardRepository.getBoardWithWriter(100L);
+//        Object result2 = boardRepository.getBoardWithWriter(90L);
+//
+//        Object[] arr = (Object[]) result;
+//
+//        Object[] arr2 = (Object[]) result2;
+//        System.out.println(Arrays.toString(objects));
+//
+//        System.out.println("------------------");
+//        System.out.println(Arrays.toString(arr));
+//        System.out.println("------------------");
+//        System.out.println(arr2.toString());
+//    }
 
     @Test
     public void testGetBoardWithReply() {

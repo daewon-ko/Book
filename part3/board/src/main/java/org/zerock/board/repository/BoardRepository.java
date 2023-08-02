@@ -31,4 +31,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
             "where b.bno =:bno")
     Object getBoardByBno(@Param("bno") Long bno);
 
+
+
 }
