@@ -6,10 +6,9 @@ buildscript{
 
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.7.14'
+    id 'org.springframework.boot' version '2.7.13'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
-
 
 group = 'org.zerock'
 version = '0.0.1-SNAPSHOT'
@@ -47,8 +46,23 @@ dependencies {
             "javax.annotation:javax.annotation-api",
 
             "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+
+
+    implementation 'org.modelmapper:modelmapper:3.1.0'
+
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
+
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+
+
+    implementation 'net.coobird:thumbnailator:0.4.16'
+
 }
 
+tasks.named('test') {
+    useJUnitPlatform()
+}
 
 sourceSets {
     main {
@@ -56,10 +70,4 @@ sourceSets {
             srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
         }
     }
-}
-
-compileJava.dependsOn('clean')
-
-tasks.named('test') {
-    useJUnitPlatform()
 }
