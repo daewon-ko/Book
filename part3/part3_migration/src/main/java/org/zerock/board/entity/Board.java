@@ -13,11 +13,12 @@ import java.time.LocalDateTime;
 public class Board {
 
     private Long bno;
+    private Member writer;
     private String title;
     private String content;
     private LocalDateTime regDate;
     private LocalDateTime modDate;
-    private Member writer;
+    private boolean deleted;
 
 
     public void changeTitle(BoardDTO dto) {

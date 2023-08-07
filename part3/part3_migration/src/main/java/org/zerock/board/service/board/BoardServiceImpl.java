@@ -2,6 +2,7 @@ package org.zerock.board.service.board;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zerock.board.common.Pagination;
 import org.zerock.board.dto.BoardDTO;
@@ -17,12 +18,17 @@ import java.util.stream.Collectors;
 
 @Service
 @Log4j2
-@RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
     private final BoardJDBCRepository boardJDBCRepository;
 
     private final ReplyJdbcRepository replyJdbcRepository;
+
+    @Autowired
+    public BoardServiceImpl(final BoardJDBCRepository boardJDBCRepository, final ReplyJdbcRepository replyJdbcRepository) {
+        this.boardJDBCRepository = boardJDBCRepository;
+        this.replyJdbcRepository = replyJdbcRepository;
+    }
 
     @Override
     public Long register(BoardDTO dto) {
@@ -53,7 +59,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public void modify(final BoardDTO dto) {
-        Optional<Board> result = boardJDBCRepository.findById(dto.getGno());
+        Optional<Board> result = boardJDBCRepository.findById(dto.getBno());
         Board entity = result.orElseThrow(() -> new IllegalArgumentException("해당하는 아이디를 찾을 수 없습니다."));
         entity.changeContent(dto);
         entity.changeTitle(dto);

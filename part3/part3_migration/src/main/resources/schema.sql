@@ -1,6 +1,6 @@
-create table GuestBook
+create table Board
 (
-    gno          bigint auto_increment primary key,
+    bno          bigint auto_increment primary key,
     member_email varchar(50)   not null,
     title        varchar(100)  not null,
     content      varchar(1500) not null,
