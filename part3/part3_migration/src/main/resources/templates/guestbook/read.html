@@ -3,12 +3,12 @@
 
 <th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
     <th:block th:fragment="content">
-        <h1 class="mt-4">Boad Read Page</h1>
+        <h1 class="mt-4">GuestBook Read Page</h1>
 
         <div class="form-group">
-            <label>Bno</label>
+            <label>Gno</label>
             <input type="text" class="form-control" name="gno"
-                   th:value="${dto.bno}" readonly>
+                   th:value="${dto.gno}" readonly>
         </div>
 
         <div class="form-group">
@@ -27,7 +27,7 @@
         <div class="form-group">
             <label>Writer</label>
             <input type="text" class="form-control" name="writer"
-                   th:value="${dto.writerEmail}" readonly>
+                   th:value="${dto.writer}" readonly>
         </div>
 
         <div class="form-group">
@@ -39,49 +39,13 @@
             <label>ModDate</label>
             <input type="text" class="form-control" name="modDate"
                    th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mm:ss')}"
-                   readonly>
+            readonly>
         </div>
-
-        <a th:href="@{/board/modify(bno=${dto.bno}, page =${requestDTO.page})}">
+        <a th:href="@{/guestbook/modify(gno=${dto.gno}, page =${requestDTO.page})}">
             <button type="button" class="btn btn-primary">Modify</button>
         </a>
-
-
-        <a th:href="@{/board/list(page=${requestDTO.page},
-            type =${requestDTO.type},
-            keyword = ${requestDTO.keyword})}">
+        <a th:href="@{/guestbook/list(page=${requestDTO.page})}">
             <button type="button" class="btn btn-info">List</button>
         </a>
-
-        <div>
-            <div class="mt-4">
-                <h5><span class="badge badge-secondary replyCount">Reply Count
-                [[${dto.replyCount}]]</span></h5>
-            </div>
-            <div class="list-group replyList">
-
-
-            </div>
-        </div>
-
     </th:block>
 </th:block>
-
-<script th:inline="javascript">
-    $(document).ready(function () {
-
-        var bno = [[${dto.bno}]];
-
-        var listGroup = $(".replyList");
-
-        $(".replyCount").click(function () {
-
-            $.getJSON('/replies/board/' + bno, function (arr) {
-
-                console.log(arr);
-
-            })//end getJSON
-
-        })//end click
-    });
-</script>
