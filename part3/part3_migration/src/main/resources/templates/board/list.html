@@ -5,14 +5,14 @@
 
         <h1 class="mt-4">GuestBook List
             <span>
-            <a th:href="@{/guestbook/register}">
+            <a th:href="@{/templates/board/register}">
                 <button type="button" class="btn btn-outline-primary">REGISTER</button>
                 </button>
             </a>
              </span>
         </h1>
 
-        <form action="/guestbook/list" method="get" id="searchForm">
+        <form action="/board/list" method="get" id="searchForm">
             <div class="input-group">
                 <input type="hidden" name="page" value="1">
                 <div class="input-group-prepend">
@@ -47,7 +47,7 @@
 
             <tr th:each="dto : ${result.dtoList}">
                 <th scope="row">
-                    <a th:href="@{/guestbook/read(gno=${dto.gno})}">
+                    <a th:href="@{/board/read(gno=${dto.gno})}">
                         [[${dto.gno}]]
                     </a>
                 </th>
@@ -60,7 +60,7 @@
 
         <ul class="pagination h-100 justify-content-center align-items-center">
             <li class="page-item" th:if="${result.pagination.isExistPrev}">
-                <a class="page-link" th:href="@{/guestbook/list(page=${pageRequestDTO.page - 1},
+                <a class="page-link" th:href="@{/templates/board/list(page=${pageRequestDTO.page - 1},
         type=${pageRequestDTO.type},
         keyword=${pageRequestDTO.keyword})}" tabindex="-1">이전</a>
             </li>
@@ -71,7 +71,7 @@
             <li th:class=" 'page-item'+${pageRequestDTO.page == page? 'active':' '}"
                 th:each="page: ${result.pagination.pageList}">
                 <a th:class="page-link"
-                   th:href="@{/guestbook/list(page=${page},
+                   th:href="@{/templates/board/list(page=${page},
                                type=${result.type},
                                keyword=${result.keyword})}">
                     [[${page}]]
@@ -79,7 +79,7 @@
             </li>
 
                                     <li class="page-item" th:if="${result.pagination.isExistNext}">
-                                        <a class="page-link" th:href="@{/guestbook/list(page=${result.pagination.endPage+1},
+                                        <a class="page-link" th:href="@{/templates/board/list(page=${result.pagination.endPage+1},
                                         type=${pageRequestDTO.type},
                                         keyword=${pageRequestDTO.keyword})}">Next</a>
                                     </li>

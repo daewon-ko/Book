@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class Member {
-    private String email;
-    private String password;
-    private String name;
+@AllArgsConstructor
+public class Reply {
+    private long rno;
+    private long bno;
+    private String title;
+    private String content;
+    private String replyer;
 
 }

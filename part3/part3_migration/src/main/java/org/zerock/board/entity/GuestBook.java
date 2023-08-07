@@ -14,7 +14,7 @@ public class GuestBook {
 
     private Long gno;
     private String title;
-    private String writer;
+    private String email;
 
     private String content;
     private LocalDateTime regDate;

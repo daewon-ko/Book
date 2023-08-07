@@ -21,7 +21,7 @@ class JdbcRepositoryImplTests {
                     GuestBook build = GuestBook.builder()
                             .title("Title" + i)
                             .content("하하하" + i)
-                            .writer("작가" + i)
+                            .email("작가" + i)
                             .build();
                     jdbcRepository.save(build);
                     System.out.println(build);

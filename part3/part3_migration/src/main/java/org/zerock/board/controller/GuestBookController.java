@@ -14,7 +14,7 @@ import org.zerock.board.dto.PageRequestDTO;
 import org.zerock.board.service.GuestbookService;
 
 @Controller
-@RequestMapping("/guestbook")
+@RequestMapping("/board")
 @Log4j2
 @RequiredArgsConstructor
 public class GuestBookController {

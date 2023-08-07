@@ -13,7 +13,7 @@ public interface GuestbookService {
                 .gno(dto.getGno())
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .writer(dto.getWriter())
+                .email(dto.getWriter())
                 .build();
         return entity;
     }
@@ -23,7 +23,7 @@ public interface GuestbookService {
                 .gno(entity.getGno())
                 .title(entity.getTitle())
                 .content(entity.getContent())
-                .writer(entity.getWriter())
+                .writer(entity.getEmail())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
                 .build();
