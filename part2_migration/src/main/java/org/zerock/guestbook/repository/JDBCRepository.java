@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface JDBCRepository {
     Optional<GuestBook> findById(Long gno);
 
+
     List<GuestBook> findAll();
 
     void modify(GuestBook guestBook);
