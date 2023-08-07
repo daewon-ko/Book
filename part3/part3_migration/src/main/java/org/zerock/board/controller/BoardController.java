@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.zerock.board.dto.GuestBookDTO;
+import org.zerock.board.dto.BoardDTO;
 import org.zerock.board.dto.PageRequestDTO;
-import org.zerock.board.service.GuestbookService;
+import org.zerock.board.service.board.BoardService;
 
 @Controller
 @RequestMapping("/board")
 @Log4j2
 @RequiredArgsConstructor
-public class GuestBookController {
+public class BoardController {
 
-    private final GuestbookService service;
+    private final BoardService service;
 
     @GetMapping("/")
     public String index() {
@@ -35,7 +35,7 @@ public class GuestBookController {
     }
 
     @PostMapping("/register")
-    public String registerPost(GuestBookDTO dto, RedirectAttributes redirectAttributes) {
+    public String registerPost(BoardDTO dto, RedirectAttributes redirectAttributes) {
         log.info("dto.." + dto);
 
         //새로 추가된 엔티티의 번호
@@ -54,7 +54,7 @@ public class GuestBookController {
     @GetMapping({"/read", "/modify"})
     public void read(long gno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
         log.info("gno :" + gno);
-        GuestBookDTO dto = service.read(gno);
+        BoardDTO dto = service.read(gno);
         model.addAttribute("dto", dto);
     }
 
@@ -67,7 +67,7 @@ public class GuestBookController {
     }
 
     @PostMapping("/modify")
-    public String modify(GuestBookDTO dto, @ModelAttribute PageRequestDTO requestDTO, RedirectAttributes redirectAttributes) {
+    public String modify(BoardDTO dto, @ModelAttribute PageRequestDTO requestDTO, RedirectAttributes redirectAttributes) {
         log.info("post modify...");
         log.info("dto:"+dto);
         service.modify(dto);

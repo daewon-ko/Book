@@ -11,10 +11,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class GuestBookDTO {
-    private Long gno;
+public class BoardDTO {
+    private Long bno;
     private String title;
     private String content;
-    private String writer;
+    private String writerEmail;
+    private String writerName;
     private LocalDateTime regDate, modDate;
+    private int replyCount;
 }

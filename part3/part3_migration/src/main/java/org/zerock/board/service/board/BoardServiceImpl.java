@@ -1,14 +1,14 @@
-package org.zerock.board.service;
+package org.zerock.board.service.board;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.zerock.board.common.Pagination;
-import org.zerock.board.dto.GuestBookDTO;
+import org.zerock.board.dto.BoardDTO;
 import org.zerock.board.dto.PageRequestDTO;
 import org.zerock.board.dto.PageResultDTO;
-import org.zerock.board.entity.GuestBook;
-import org.zerock.board.repository.JDBCRepository;
+import org.zerock.board.entity.Board;
+import org.zerock.board.repository.board.BoardJDBCRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,28 +17,28 @@ import java.util.stream.Collectors;
 @Service
 @Log4j2
 @RequiredArgsConstructor
-public class GuestbookServiceImpl implements GuestbookService {
+public class BoardServiceImpl implements BoardService {
 
-    private final JDBCRepository repository;
+    private final BoardJDBCRepository repository;
 
     @Override
-    public Long register(GuestBookDTO dto) {
+    public Long register(BoardDTO dto) {
         log.info("DTO-------");
         log.info(dto);
 
-        GuestBook entity = dtoToEntity(dto);
+        Board entity = dtoToEntity(dto);
         log.info(entity);
         repository.save(entity);
 
-        return entity.getGno();
+        return entity.getBno();
     }
 
 
     @Override
-    public GuestBookDTO read(final Long gno) {
-        GuestBook guestBook = repository.findById(gno)
+    public BoardDTO read(final Long gno) {
+        Board board = repository.findById(gno)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 아이디가 없습니다."));
-        return entityToDto(guestBook);
+        return entityToDto(board);
     }
 
     @Override
@@ -47,9 +47,9 @@ public class GuestbookServiceImpl implements GuestbookService {
     }
 
     @Override
-    public void modify(final GuestBookDTO dto) {
-        Optional<GuestBook> result = repository.findById(dto.getGno());
-        GuestBook entity = result.orElseThrow(() -> new IllegalArgumentException("해당하는 아이디를 찾을 수 없습니다."));
+    public void modify(final BoardDTO dto) {
+        Optional<Board> result = repository.findById(dto.getGno());
+        Board entity = result.orElseThrow(() -> new IllegalArgumentException("해당하는 아이디를 찾을 수 없습니다."));
         entity.changeContent(dto);
         entity.changeTitle(dto);
         log.info("GuestBook Content: {}, GuestBook Title: {}", entity.getContent(), entity.getTitle());
@@ -75,7 +75,7 @@ public class GuestbookServiceImpl implements GuestbookService {
 
         Pagination pagination = new Pagination(totalRecord, requestDTO);
 
-        List<GuestBookDTO> dtoList = repository.findPages(requestDTO, pagination).stream()
+        List<BoardDTO> dtoList = repository.findPages(requestDTO, pagination).stream()
                 .map(entity -> entityToDto(entity))
                 .collect(Collectors.toUnmodifiableList());
 

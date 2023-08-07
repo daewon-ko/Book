@@ -1,4 +1,4 @@
-package org.zerock.board.repository;
+package org.zerock.board.repository.board;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -11,28 +11,28 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.zerock.board.common.Pagination;
 import org.zerock.board.dto.PageRequestDTO;
-import org.zerock.board.entity.GuestBook;
+import org.zerock.board.entity.Board;
 
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class JdbcRepositoryImpl implements JDBCRepository {
+public class BoardJdbcRepositoryImpl implements BoardJDBCRepository {
 
 
     @Autowired
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public JdbcRepositoryImpl(final DataSource dataSource) {
+    public BoardJdbcRepositoryImpl(final DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     @Override
-    public Optional<GuestBook> findById(final Long gno) {
+    public Optional<Board> findById(final Long gno) {
         String sql = "select * from GuestBook where gno =:gno";
         MapSqlParameterSource param = new MapSqlParameterSource().addValue("gno", gno); // 파라미터를 MapSqlParameterSource에 매핑
-        return jdbcTemplate.query(sql, param, (rs, rowNum) -> new GuestBook(
+        return jdbcTemplate.query(sql, param, (rs, rowNum) -> new Board(
                 rs.getLong("gno"),
                 rs.getString("title"),
                 rs.getString("writer"),
@@ -43,10 +43,10 @@ public class JdbcRepositoryImpl implements JDBCRepository {
     }
 
     @Override
-    public List<GuestBook> findAll() {
+    public List<Board> findAll() {
         String sql = "select * from GuestBook";
         BeanPropertyRowMapper param = new BeanPropertyRowMapper();
-        return jdbcTemplate.query(sql, (rs, rowNum) -> new GuestBook(
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new Board(
                 rs.getLong("gno"),
                 rs.getString("title"),
                 rs.getString("writer"),
@@ -57,30 +57,30 @@ public class JdbcRepositoryImpl implements JDBCRepository {
     }
 
     @Override
-    public void modify(final GuestBook guestBook) {
+    public void modify(final Board board) {
         String sql = "update GuestBook set title = :title, content = :content where GuestBook.gno = :gno";
-        SqlParameterSource params = new BeanPropertySqlParameterSource(guestBook);
+        SqlParameterSource params = new BeanPropertySqlParameterSource(board);
         jdbcTemplate.update(sql, params);
     }
 
 
     @Override
-    public boolean save(GuestBook guestBook) {
+    public boolean save(Board board) {
         String sql = "insert into GuestBook (title, writer, content)" +
                 " values (:title, :writer, :content)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        SqlParameterSource params = new BeanPropertySqlParameterSource(guestBook);
+        SqlParameterSource params = new BeanPropertySqlParameterSource(board);
         jdbcTemplate.update(sql, params, keyHolder);
         return false;
     }
 
     @Override
-    public List<GuestBook> findPages(PageRequestDTO requestDTO, Pagination pagination) {
+    public List<Board> findPages(PageRequestDTO requestDTO, Pagination pagination) {
         int recordSize = requestDTO.getRecordSize();
         int offSet = pagination.getLimitStart();
         String sql = "select * from GuestBook where deleted = false order by gno desc limit :offSet, :recordSize";
         SqlParameterSource param = new BeanPropertySqlParameterSource(requestDTO);
-        return jdbcTemplate.query(sql, param, (rs, rowNum) -> new GuestBook(
+        return jdbcTemplate.query(sql, param, (rs, rowNum) -> new Board(
                 rs.getLong("gno"),
                 rs.getString("title"),
                 rs.getString("writer"),
