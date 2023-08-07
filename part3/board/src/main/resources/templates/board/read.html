@@ -39,13 +39,26 @@
             <label>ModDate</label>
             <input type="text" class="form-control" name="modDate"
                    th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mm:ss')}"
-            readonly>
+                   readonly>
         </div>
+
         <a th:href="@{/board/modify(bno=${dto.bno}, page =${requestDTO.page})}">
             <button type="button" class="btn btn-primary">Modify</button>
         </a>
-        <a th:href="@{/board/list(page=${requestDTO.page})}">
+
+
+        <a th:href="@{/board/list(page=${requestDTO.page},
+            type =${requestDTO.type},
+            keyword = ${requestDTO.keyword})}">
             <button type="button" class="btn btn-info">List</button>
         </a>
+
+        <div>
+            <div class="mt-4">
+                <h5><span class="badge badge-secondary replyCount">Reply Count
+                [[${dto.replyCount}]]</span></h5>
+            </div>
+            <div class="list-group replyList"></div>
+        </div>
     </th:block>
 </th:block>
