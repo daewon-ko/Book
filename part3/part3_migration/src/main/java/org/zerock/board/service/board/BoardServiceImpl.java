@@ -9,6 +9,7 @@ import org.zerock.board.dto.PageRequestDTO;
 import org.zerock.board.dto.PageResultDTO;
 import org.zerock.board.entity.Board;
 import org.zerock.board.repository.board.BoardJDBCRepository;
+import org.zerock.board.repository.reply.ReplyJdbcRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
-    private final BoardJDBCRepository repository;
+    private final BoardJDBCRepository boardJDBCRepository;
+
+    private final ReplyJdbcRepository replyJdbcRepository;
 
     @Override
     public Long register(BoardDTO dto) {
@@ -28,7 +31,7 @@ public class BoardServiceImpl implements BoardService {
 
         Board entity = dtoToEntity(dto);
         log.info(entity);
-        repository.save(entity);
+        boardJDBCRepository.save(entity);
 
         return entity.getBno();
     }
@@ -36,49 +39,47 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public BoardDTO read(final Long gno) {
-        Board board = repository.findById(gno)
+        Board board = boardJDBCRepository.findById(gno)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 아이디가 없습니다."));
         return entityToDto(board);
     }
 
     @Override
     public void remove(final long gno) {
-        repository.deleteById(gno);
+        boardJDBCRepository.deleteById(gno);
     }
+
+
 
     @Override
     public void modify(final BoardDTO dto) {
-        Optional<Board> result = repository.findById(dto.getGno());
+        Optional<Board> result = boardJDBCRepository.findById(dto.getGno());
         Board entity = result.orElseThrow(() -> new IllegalArgumentException("해당하는 아이디를 찾을 수 없습니다."));
         entity.changeContent(dto);
         entity.changeTitle(dto);
         log.info("GuestBook Content: {}, GuestBook Title: {}", entity.getContent(), entity.getTitle());
-        repository.modify(entity);
+        boardJDBCRepository.modify(entity);
     }
 
 
     @Override
     public PageResultDTO getList(final PageRequestDTO requestDTO) {
-        /*
-        하단의 3줄을 Page조건으로 변경할 필요. 
-        어떤 로직인가? 
-        PageRequest를 받아서 DB에 접근 후 해당하는 조건만큼 Select 해온다. 
-        그 이후 fn조건을 이용하여 PageResultDto로 변환해준다. 
-        
-         */
-//        Pageable pageable = requestDTO.getPageable(Sort.by("gno").descending());
-//        BooleanBuilder booleanBuilder = getSearch(requestDTO);
-//        Page<GuestBook> result = repository.findAll(booleanBuilder, pageable);
-        //QueyDSL 사용
 
-        int totalRecord = repository.calculateTotalRecordCount(requestDTO);
+
+        int totalRecord = boardJDBCRepository.calculateTotalRecordCount(requestDTO);
 
         Pagination pagination = new Pagination(totalRecord, requestDTO);
 
-        List<BoardDTO> dtoList = repository.findPages(requestDTO, pagination).stream()
+        List<BoardDTO> dtoList = boardJDBCRepository.findPages(requestDTO, pagination).stream()
                 .map(entity -> entityToDto(entity))
                 .collect(Collectors.toUnmodifiableList());
 
         return new PageResultDTO<>(dtoList, pagination);
+    }
+
+
+    @Override
+    public int getReplyCount(final Long bno) {
+        return replyJdbcRepository.countReplies(bno);
     }
 }

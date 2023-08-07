@@ -22,7 +22,7 @@ public interface BoardService {
     }
 
     default BoardDTO entityToDto(Board entity) {
-        Reply.builder().rno()
+        int replyCount = getReplyCount(entity.getBno());
         BoardDTO.builder()
                 .bno(entity.getBno())
                 .title(entity.getTitle())
@@ -31,7 +31,7 @@ public interface BoardService {
                 .writerName(entity.getWriter().getName())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
-                .replyCount(1)
+                .replyCount(replyCount)
                 .build();
         return Board.toDTO(entity);
     }
@@ -44,5 +44,6 @@ public interface BoardService {
 
     void remove(long gno);
 
+    int getReplyCount(Long bno);
 
 }
