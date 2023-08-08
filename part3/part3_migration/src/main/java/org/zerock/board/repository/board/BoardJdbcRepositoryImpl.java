@@ -12,8 +12,10 @@ import org.springframework.stereotype.Repository;
 import org.zerock.board.common.Pagination;
 import org.zerock.board.dto.PageRequestDTO;
 import org.zerock.board.entity.Board;
+
+// TODO : Board Repository 계층에서 다른 Domain인 Member와 MemberRepository를 의존하는 것이 과연 적절한가?
+// 만약 이와 같이 작성한다면 테스트 코드 등을 작성할 떄 문제가 되는가?(단위 테스트)
 import org.zerock.board.entity.Member;
-import org.zerock.board.repository.member.MemberRepository;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -24,12 +26,7 @@ public class BoardJdbcRepositoryImpl implements BoardJDBCRepository {
 
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final MemberRepository memberRepository;
 
-    public BoardJdbcRepositoryImpl(final NamedParameterJdbcTemplate jdbcTemplate, final MemberRepository memberRepository) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.memberRepository = memberRepository;
-    }
 
     public BoardJdbcRepositoryImpl(final DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -50,17 +47,26 @@ public class BoardJdbcRepositoryImpl implements BoardJDBCRepository {
         )).stream().findAny();
     }
 
+    /**
+     * Board 클래스에서 Member 클래스에 의존한다.
+     * schema 또한 Board에서 Member_email(varchar 타입)이라는 컬럼을 통해
+     * Member와 FK 관계를 설정하였다.
+     *
+     * Board 클래스의 findAll을
+     * @return
+     */
     @Override
     public List<Board> findAll() {
         String sql = "select * from Board";
         BeanPropertyRowMapper param = new BeanPropertyRowMapper();
         return jdbcTemplate.query(sql, (rs, rowNum) -> new Board(
-                rs.getLong("gno"),
+                rs.getLong("bno"),
+                rs.getObject("member_email",Member.class),
                 rs.getString("title"),
-                rs.getString("writer"),
                 rs.getString("content"),
                 rs.getTimestamp("regdate").toLocalDateTime(),
-                rs.getTimestamp("moddate").toLocalDateTime()
+                rs.getTimestamp("moddate").toLocalDateTime(),
+                rs.getBoolean("deleted")
         ));
     }
 
@@ -86,15 +92,16 @@ public class BoardJdbcRepositoryImpl implements BoardJDBCRepository {
     public List<Board> findPages(PageRequestDTO requestDTO, Pagination pagination) {
         int recordSize = requestDTO.getRecordSize();
         int offSet = pagination.getLimitStart();
-        String sql = "select * from Board where deleted = false order by gno desc limit :offSet, :recordSize";
+        String sql = "select * from Board where deleted = false order by bno desc limit :offSet, :recordSize";
         SqlParameterSource param = new BeanPropertySqlParameterSource(requestDTO);
         return jdbcTemplate.query(sql, param, (rs, rowNum) -> new Board(
-                rs.getLong("gno"),
+                rs.getLong("bno"),
+                rs.getObject("member_email",Member.class),
                 rs.getString("title"),
-                rs.getString("writer"),
                 rs.getString("content"),
                 rs.getTimestamp("regdate").toLocalDateTime(),
-                rs.getTimestamp("moddate").toLocalDateTime()
+                rs.getTimestamp("moddate").toLocalDateTime(),
+                rs.getBoolean("deleted")
         ));
     }
 

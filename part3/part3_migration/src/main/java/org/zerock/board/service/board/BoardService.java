@@ -5,11 +5,16 @@ import org.zerock.board.dto.PageRequestDTO;
 import org.zerock.board.dto.PageResultDTO;
 import org.zerock.board.entity.Board;
 import org.zerock.board.entity.Member;
-import org.zerock.board.entity.Reply;
 
 public interface BoardService {
     Long register(BoardDTO dto);
 
+    /**
+     *
+     * @param dto
+     * @return Board
+     *
+     */
     default Board dtoToEntity(BoardDTO dto) {
         Member member = Member.builder().email(dto.getWriterEmail()).build();
         Board entity = Board.builder()
@@ -17,6 +22,9 @@ public interface BoardService {
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .writer(member)
+                .regDate(dto.getRegDate())
+                .modDate(dto.getModDate())
+                .deleted(dto.isDeleted())
                 .build();
         return entity;
     }
@@ -32,6 +40,7 @@ public interface BoardService {
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
                 .replyCount(replyCount)
+                .deleted(entity.isDeleted())
                 .build();
         return Board.toDTO(entity);
     }
