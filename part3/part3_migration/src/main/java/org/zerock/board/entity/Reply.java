@@ -15,5 +15,4 @@ public class Reply {
     private String title;
     private String content;
     private String replyer;
-
 }

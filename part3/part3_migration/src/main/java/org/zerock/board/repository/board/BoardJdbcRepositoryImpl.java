@@ -1,6 +1,5 @@
 package org.zerock.board.repository.board;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -80,23 +79,29 @@ public class BoardJdbcRepositoryImpl implements BoardJDBCRepository {
 
     @Override
     public boolean save(Board board) {
-        String sql = "insert into Board (title, writer, content)" +
-                " values (:title, :writer, :content)";
+        String sql = "insert into Board (member_email, title, content)" +
+                " values (:memberEmail, :title, :content)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        SqlParameterSource params = new BeanPropertySqlParameterSource(board);
-        jdbcTemplate.update(sql, params, keyHolder);
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("memberEmail", board.getWriter().getEmail());
+        param.addValue("title", board.getTitle());
+        param.addValue("content", board.getContent());
+//        SqlParameterSource params = new BeanPropertySqlParameterSource(board);
+        jdbcTemplate.update(sql, param, keyHolder);
         return false;
     }
 
     @Override
     public List<Board> findPages(PageRequestDTO requestDTO, Pagination pagination) {
+
         int recordSize = requestDTO.getRecordSize();
         int offSet = pagination.getLimitStart();
-        String sql = "select * from Board where deleted = false order by bno desc limit :offSet, :recordSize";
+        String sql = "select * from Board b INNER JOIN Member m on b.member_email = m.email " +
+                " where b.deleted = false order by b.bno desc limit :offSet, :recordSize";
         SqlParameterSource param = new BeanPropertySqlParameterSource(requestDTO);
         return jdbcTemplate.query(sql, param, (rs, rowNum) -> new Board(
                 rs.getLong("bno"),
-                rs.getObject("member_email",Member.class),
+                Member.createFromEmail(rs.getString("member_email")),
                 rs.getString("title"),
                 rs.getString("content"),
                 rs.getTimestamp("regdate").toLocalDateTime(),

@@ -52,9 +52,9 @@ public class BoardController {
     }
 
     @GetMapping({"/read", "/modify"})
-    public void read(long gno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
-        log.info("gno :" + gno);
-        BoardDTO dto = service.read(gno);
+    public void read(long bno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
+        log.info("bno :" + bno);
+        BoardDTO dto = service.read(bno);
         model.addAttribute("dto", dto);
     }
 

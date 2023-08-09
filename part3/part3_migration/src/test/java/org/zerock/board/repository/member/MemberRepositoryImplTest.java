@@ -20,7 +20,7 @@ class MemberRepositoryImplTest {
     public void insertMember() {
         IntStream.range(1,100).forEach(
                 i -> {
-                    Member member = new Member("user" + i, "password" + i, "userName" + i);
+                    Member member = new Member("user" + i+"@@@.com", "password" + i, "userName" + i);
                     memberRepository.save(member);
                 }
         );

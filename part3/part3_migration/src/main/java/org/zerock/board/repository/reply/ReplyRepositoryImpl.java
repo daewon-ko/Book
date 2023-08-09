@@ -19,7 +19,7 @@ public class ReplyRepositoryImpl implements ReplyJdbcRepository{
 
     @Override
     public int countReplies(final Long bno) {
-        String sql = "SELECT COUNT(*) FROM Reply where Reply.guestBook_gno = : bno";
+        String sql = "SELECT COUNT(*) FROM Reply r INNER JOIN Board b on r.board_bno = b.bno";
         SqlParameterSource param = new MapSqlParameterSource("bno", bno);
         Integer count = jdbcTemplate.queryForObject(sql, param, Integer.class);
         return count != null ? count : 0;

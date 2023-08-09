@@ -44,15 +44,15 @@ public class BoardServiceImpl implements BoardService {
 
 
     @Override
-    public BoardDTO read(final Long gno) {
-        Board board = boardJDBCRepository.findById(gno)
+    public BoardDTO read(final Long bno) {
+        Board board = boardJDBCRepository.findById(bno)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 아이디가 없습니다."));
         return entityToDto(board);
     }
 
     @Override
-    public void remove(final long gno) {
-        boardJDBCRepository.deleteById(gno);
+    public void remove(final long bno) {
+        boardJDBCRepository.deleteById(bno);
     }
 
 

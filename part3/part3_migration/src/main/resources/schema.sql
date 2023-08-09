@@ -20,7 +20,7 @@ create table Member
 create table Reply
 (
     rno           bigint auto_increment primary key,
-    guestBook_gno bigint,
+    board_bno bigint,
     title         varchar(50)   not null,
     content       varchar(1000) not null,
     replyer       varchar(50)   not null,

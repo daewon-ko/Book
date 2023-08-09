@@ -14,4 +14,11 @@ public class Member {
     private String password;
     private String name;
 
+    public static Member createFromEmail(String email) {
+        Member member = new Member();
+        member.email = email;
+        return member;
+
+    }
+
 }

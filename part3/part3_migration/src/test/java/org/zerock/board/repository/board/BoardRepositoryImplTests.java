@@ -1,5 +1,6 @@
-package org.zerock.board.repository;
+package org.zerock.board.repository.board;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,11 +17,11 @@ class BoardRepositoryImplTests {
     private BoardJDBCRepository boardJdbcRepository;
 
     @Test
-    @Transactional
+    @DisplayName("Member 테이블에 존재하는 이메일을 기반으로 Board를 생성하는 테스트 코드")
     void save() {
         IntStream.range(1, 100).forEach(
                 i -> {
-                    Member member = Member.builder().email("user" + i + "@@@.com").build();
+                    Member member = Member.builder().email("user" + i+"@@@.comr").build();
                     Board board = Board.builder()
                             .writer(member)
                             .title("Title" + i)
