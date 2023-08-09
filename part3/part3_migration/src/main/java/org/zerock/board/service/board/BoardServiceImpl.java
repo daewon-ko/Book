@@ -22,8 +22,6 @@ public class BoardServiceImpl implements BoardService {
 
     private final BoardJDBCRepository boardJDBCRepository;
 
-    private final ReplyJdbcRepository replyJdbcRepository;
-
     @Autowired
     public BoardServiceImpl(final BoardJDBCRepository boardJDBCRepository, final ReplyJdbcRepository replyJdbcRepository) {
         this.boardJDBCRepository = boardJDBCRepository;
@@ -86,6 +84,6 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public int getReplyCount(final Long bno) {
-        return replyJdbcRepository.countReplies(bno);
+        return boardJDBCRepository.countRepliesByBno(bno);
     }
 }

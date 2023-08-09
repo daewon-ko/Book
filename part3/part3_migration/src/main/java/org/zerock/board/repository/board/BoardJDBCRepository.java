@@ -23,6 +23,8 @@ public interface BoardJDBCRepository {
 
     void deleteById(long gno);
 
+    int countRepliesByBno(long bno);
+
 //    void delete(Long gno);
 
 }

@@ -86,7 +86,6 @@ public class BoardJdbcRepositoryImpl implements BoardJDBCRepository {
         param.addValue("memberEmail", board.getWriter().getEmail());
         param.addValue("title", board.getTitle());
         param.addValue("content", board.getContent());
-//        SqlParameterSource params = new BeanPropertySqlParameterSource(board);
         jdbcTemplate.update(sql, param, keyHolder);
         return false;
     }
@@ -122,6 +121,14 @@ public class BoardJdbcRepositoryImpl implements BoardJDBCRepository {
         String sql = "UPDATE Board Set deleted = true where bno =:bno";
         SqlParameterSource param = new MapSqlParameterSource().addValue("bno", bno);
         jdbcTemplate.update(sql, param);
+    }
+
+    @Override
+    public int countRepliesByBno(final long bno) {
+        String sql = "SELECT Count(*) FROM Board b INNER JOIN Reply r ON b.bno = r.board_bno" +
+                " where b.bno =:bno";
+        MapSqlParameterSource param = new MapSqlParameterSource("bno", bno);
+        return jdbcTemplate.queryForObject(sql, param, Integer.class);
     }
 
 }
