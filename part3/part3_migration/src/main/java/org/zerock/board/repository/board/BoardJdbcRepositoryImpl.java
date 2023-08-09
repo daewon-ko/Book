@@ -34,10 +34,10 @@ public class BoardJdbcRepositoryImpl implements BoardJDBCRepository {
     @Override
     public Optional<Board> findById(final Long bno) {
         String sql = "select * from Board where bno =:bno";
-        MapSqlParameterSource param = new MapSqlParameterSource().addValue("gno", bno); // 파라미터를 MapSqlParameterSource에 매핑
+        MapSqlParameterSource param = new MapSqlParameterSource().addValue("bno", bno); // 파라미터를 MapSqlParameterSource에 매핑
         return jdbcTemplate.query(sql, param, (rs, rowNum) -> new Board(
                 rs.getLong("bno"),
-                rs.getObject("member_email",Member.class),
+                Member.createFromEmail(rs.getString("member_email")),
                 rs.getString("title"),
                 rs.getString("content"),
                 rs.getTimestamp("regdate").toLocalDateTime(),
