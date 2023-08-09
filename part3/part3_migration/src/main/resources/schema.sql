@@ -20,9 +20,10 @@ create table Member
 create table Reply
 (
     rno           bigint auto_increment primary key,
-    board_bno bigint,
+    board_bno     bigint not null,
     title         varchar(50)   not null,
     content       varchar(1000) not null,
     replyer       varchar(50)   not null,
-    foreign key (guestBook_gno) references GuestBook (gno)
+    foreign key (board_bno) references Board (bno),
+    foreign key (replyer) references Member(email)
 );

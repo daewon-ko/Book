@@ -21,7 +21,7 @@ class BoardRepositoryImplTests {
     void save() {
         IntStream.range(1, 100).forEach(
                 i -> {
-                    Member member = Member.builder().email("user" + i+"@@@.comr").build();
+                    Member member = Member.builder().email("user" + i+"@@@.com").build();
                     Board board = Board.builder()
                             .writer(member)
                             .title("Title" + i)

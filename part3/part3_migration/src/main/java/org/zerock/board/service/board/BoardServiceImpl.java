@@ -17,16 +17,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @Log4j2
 public class BoardServiceImpl implements BoardService {
 
     private final BoardJDBCRepository boardJDBCRepository;
 
-    @Autowired
-    public BoardServiceImpl(final BoardJDBCRepository boardJDBCRepository, final ReplyJdbcRepository replyJdbcRepository) {
-        this.boardJDBCRepository = boardJDBCRepository;
-        this.replyJdbcRepository = replyJdbcRepository;
-    }
 
     @Override
     public Long register(BoardDTO dto) {
@@ -52,7 +48,6 @@ public class BoardServiceImpl implements BoardService {
     public void remove(final long bno) {
         boardJDBCRepository.deleteById(bno);
     }
-
 
 
     @Override
