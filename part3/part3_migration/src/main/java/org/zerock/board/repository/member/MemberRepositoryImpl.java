@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+import org.zerock.board.dto.MemberDTO;
 import org.zerock.board.entity.Member;
 
 import javax.sql.DataSource;
@@ -28,4 +29,11 @@ public class MemberRepositoryImpl implements MemberRepository{
                 rs.getString("name")
         ));
     }
+
+    @Override
+    public void save(final MemberDTO memberDTO) {
+
+    }
+
+
 }

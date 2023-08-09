@@ -18,16 +18,17 @@ class BoardRepositoryImplTests {
     @Test
     @Transactional
     void save() {
-        IntStream.range(101, 200).forEach(
+        IntStream.range(1, 100).forEach(
                 i -> {
                     Member member = Member.builder().email("user" + i + "@@@.com").build();
-                    Board build = Board.builder()
+                    Board board = Board.builder()
+                            .writer(member)
                             .title("Title" + i)
-                            .writerEmail(member.getEmail())
                             .content("하하하" + i)
+                            .deleted(false)
                             .build();
-                    boardJdbcRepository.save(build);
-                    System.out.println(build);
+                    boardJdbcRepository.save(board);
+                    System.out.println(board);
                 }
         );
 
