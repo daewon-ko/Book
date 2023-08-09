@@ -71,7 +71,7 @@ public class BoardJdbcRepositoryImpl implements BoardJDBCRepository {
 
     @Override
     public void modify(final Board board) {
-        String sql = "update Board set title = :title, content = :content where GuestBook.gno = :gno";
+        String sql = "update Board set title = :title, content = :content where Board.bno = :bno";
         SqlParameterSource params = new BeanPropertySqlParameterSource(board);
         jdbcTemplate.update(sql, params);
     }

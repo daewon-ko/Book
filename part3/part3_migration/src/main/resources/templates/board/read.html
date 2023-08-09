@@ -47,10 +47,10 @@
                    th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mm:ss')}"
             readonly>
         </div>
-        <a th:href="@{/templates/board/modify(bno=${dto.bno}, page =${requestDTO.page})}">
+        <a th:href="@{/board/modify(bno=${dto.bno}, page =${requestDTO.page})}">
             <button type="button" class="btn btn-primary">Modify</button>
         </a>
-        <a th:href="@{/templates/board/list(page=${requestDTO.page})}">
+        <a th:href="@{/board/list(page=${requestDTO.page})}">
             <button type="button" class="btn btn-info">List</button>
         </a>
     </th:block>

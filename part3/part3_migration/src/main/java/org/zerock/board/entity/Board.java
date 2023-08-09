@@ -29,13 +29,13 @@ public class Board {
         this.content = dto.getContent();
     }
 
-    public static BoardDTO toDTO(Board board) {
-        BoardDTO boardDTO = new BoardDTO();
-        boardDTO.setBno(board.getBno());
-        boardDTO.setTitle(board.getTitle());
-        boardDTO.setContent(board.getContent());
-        boardDTO.setModDate(board.getModDate());
-        boardDTO.setRegDate(board.getRegDate());
-        return boardDTO;
-    }
+//    public static BoardDTO toDTO(Board board) {
+//        BoardDTO boardDTO = new BoardDTO();
+//        boardDTO.setBno(board.getBno());
+//        boardDTO.setTitle(board.getTitle());
+//        boardDTO.setContent(board.getContent());
+//        boardDTO.setModDate(board.getModDate());
+//        boardDTO.setRegDate(board.getRegDate());
+//        return boardDTO;
+//    }
 }

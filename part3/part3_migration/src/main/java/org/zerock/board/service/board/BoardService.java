@@ -31,7 +31,7 @@ public interface BoardService {
 
     default BoardDTO entityToDto(Board entity) {
         int replyCount = getReplyCount(entity.getBno());
-        BoardDTO.builder()
+        return BoardDTO.builder()
                 .bno(entity.getBno())
                 .title(entity.getTitle())
                 .content(entity.getContent())
@@ -42,7 +42,6 @@ public interface BoardService {
                 .replyCount(replyCount)
                 .deleted(entity.isDeleted())
                 .build();
-        return Board.toDTO(entity);
     }
 
     BoardDTO read(Long gno);

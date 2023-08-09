@@ -39,9 +39,9 @@ public class BoardController {
         log.info("dto.." + dto);
 
         //새로 추가된 엔티티의 번호
-        Long gno = service.register(dto);
+        Long bno = service.register(dto);
 
-        redirectAttributes.addFlashAttribute("msg", gno);
+        redirectAttributes.addFlashAttribute("msg", bno);
 
         return "redirect:/guestbook/list";
     }
@@ -59,11 +59,11 @@ public class BoardController {
     }
 
     @PostMapping("/remove")
-    public String remove(long gno, RedirectAttributes redirectAttributes) {
-        log.info("gno: " + gno);
-        service.remove(gno);
-        redirectAttributes.addFlashAttribute("msg", gno);
-        return "redirect:/guestbook/list";
+    public String remove(long bno, RedirectAttributes redirectAttributes) {
+        log.info("bno: " + bno);
+        service.remove(bno);
+        redirectAttributes.addFlashAttribute("msg", bno);
+        return "redirect:/board/list";
     }
 
     @PostMapping("/modify")
@@ -72,7 +72,7 @@ public class BoardController {
         log.info("dto:"+dto);
         service.modify(dto);
         redirectAttributes.addAttribute("page", requestDTO.getPage());
-        redirectAttributes.addAttribute("gno", dto.getBno());
-        return "redirect:/guestbook/read";
+        redirectAttributes.addAttribute("bno", dto.getBno());
+        return "redirect:/board/read";
     }
 }
