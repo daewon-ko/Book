@@ -21,8 +21,7 @@ class MemberRepositoryImplTest {
         IntStream.range(1,100).forEach(
                 i -> {
                     Member member = new Member("user" + i, "password" + i, "userName" + i);
-
-
+                    memberRepository.save(member);
                 }
         );
     }

@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.zerock.board.dto.MemberDTO;
 import org.zerock.board.entity.Member;
@@ -11,7 +12,7 @@ import org.zerock.board.entity.Member;
 import javax.sql.DataSource;
 
 @Repository
-public class MemberRepositoryImpl implements MemberRepository{
+public class MemberRepositoryImpl implements MemberRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -31,9 +32,13 @@ public class MemberRepositoryImpl implements MemberRepository{
     }
 
     @Override
-    public void save(final MemberDTO memberDTO) {
-
+    public void save(final Member member) {
+        String sql = "INSERT INTO Member values (:email, :password, :name)";
+        SqlParameterSource param = new BeanPropertySqlParameterSource(member);
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(sql, param, keyHolder);
     }
-
-
 }
+
+
+
