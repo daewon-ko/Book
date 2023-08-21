@@ -1,15 +1,19 @@
 package org.zerock.board.repository.reply;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.zerock.board.dto.ReplyDTO;
 import org.zerock.board.entity.Board;
+import org.zerock.board.entity.Member;
 import org.zerock.board.entity.Reply;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Repository
 public class ReplyRepositoryImpl implements ReplyJdbcRepository {
@@ -30,15 +34,37 @@ public class ReplyRepositoryImpl implements ReplyJdbcRepository {
     }
 
     @Override
-    public void saveReply(final Reply reply) {
+    public Long register(final Reply reply) {
         String sql = "INSERT INTO Reply ( board_bno, title, content, replyer) " +
                 " VALUES ( :boardNumber, :title, :content, :replyer)";
         MapSqlParameterSource param = new MapSqlParameterSource();
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        param.addValue("boardNumber", reply.getBoard().getBno());
+        param.addValue("boardNumber", reply.getBno());
         param.addValue("title", reply.getTitle());
         param.addValue("content", reply.getContent());
-        param.addValue("replyer", reply.getMember().getEmail());
-        jdbcTemplate.update(sql, param, keyHolder);
+        param.addValue("replyer", reply.getReplyer());
+        return (long) jdbcTemplate.update(sql, param, keyHolder);
+
     }
+
+    @Override
+    public List<Reply> getReplyList(final Long bno) {
+        Board board = Board.builder().bno(bno).deleted(false).build();
+
+        String sql = "SELECT * FROM Reply r INNER JOIN Board b ON r.board_bno = b.bno";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new Reply(
+                rs.getLong("rno"),
+                rs.getLong("board_bno"),
+                rs.getString("content"),
+                rs.getString("title"),
+                rs.getString("replyer")
+        ));
+    }
+
+    @Override
+    public void modifyReply() {
+
+    }
+
+
 }

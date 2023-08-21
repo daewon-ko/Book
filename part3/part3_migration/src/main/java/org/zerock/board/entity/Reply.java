@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Reply {
-    private long rno;
-    private Board board;
+    private Long rno;
+    private Long bno;
     private String title;
     private String content;
-    private Member member;
+    private String replyer;
 }
