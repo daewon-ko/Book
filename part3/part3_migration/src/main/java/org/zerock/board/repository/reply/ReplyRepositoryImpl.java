@@ -1,6 +1,7 @@
 package org.zerock.board.repository.reply;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -62,8 +63,33 @@ public class ReplyRepositoryImpl implements ReplyJdbcRepository {
     }
 
     @Override
-    public void modifyReply() {
+    public Long modifyReply(Reply reply) {
+        String sql = "UPDATE Reply Set content =:content WHERE Reply.rno = :rno";
+        SqlParameterSource param = new BeanPropertySqlParameterSource(reply);
+        return (long)jdbcTemplate.update(sql, param);
 
+    }
+
+    @Override
+    public void deleteReply(final Long rno) {
+        String sql = "DELETE FROM Reply WHERE Reply.rno =:rno";
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("rno", rno);
+        jdbcTemplate.update(sql, param);
+    }
+
+    @Override
+    public Reply findById(final Long rno) {
+        String sql = "SELECT * FROM Reply WHERE Reply.rno=:rno";
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("rno", rno);
+        return jdbcTemplate.queryForObject(sql, param, (rs,rowNum)-> new Reply(
+                rs.getLong("rno"),
+                rs.getLong("board_bno"),
+                rs.getString("title"),
+                rs.getString("content"),
+                rs.getString("replyer")
+        ));
     }
 
 

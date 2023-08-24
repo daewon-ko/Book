@@ -11,5 +11,9 @@ public interface ReplyJdbcRepository {
 
     List<Reply> getReplyList(Long bno);
 
-    void modifyReply();
+    Long modifyReply(Reply reply);
+
+    void deleteReply(Long rno);
+
+    Reply findById(Long rno);
 }

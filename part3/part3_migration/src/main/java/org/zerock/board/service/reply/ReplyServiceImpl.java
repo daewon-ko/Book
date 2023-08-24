@@ -18,6 +18,12 @@ public class ReplyServiceImpl implements ReplyService{
     private final ReplyJdbcRepository repository;
 
     @Override
+    public ReplyDTO findById(final Long rno) {
+        Reply reply = repository.findById(rno);
+        return entityToDTO(reply);
+    }
+
+    @Override
     public Long register(final ReplyDTO replyDTO) {
         Reply reply = dtoToEntity(replyDTO);
         return repository.register(reply);
@@ -31,15 +37,15 @@ public class ReplyServiceImpl implements ReplyService{
     }
 
     @Override
-    public void modify(final ReplyDTO replyDTO) {
+    public Long modify(final ReplyDTO replyDTO) {
         Reply reply = dtoToEntity(replyDTO);
-        repository.modifyReply();
-
+        return repository.modifyReply(reply);
 
     }
 
     @Override
     public void remove(final Long rno) {
+        repository.deleteReply(rno);
 
     }
 }

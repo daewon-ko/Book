@@ -1,18 +1,19 @@
 package org.zerock.board.service.reply;
 
 import org.zerock.board.dto.ReplyDTO;
-import org.zerock.board.entity.Board;
 import org.zerock.board.entity.Reply;
 
 import java.util.List;
 
 public interface ReplyService {
 
+    ReplyDTO findById(Long rno);
+
     Long register(ReplyDTO replyDTO);
 
     List<ReplyDTO> getList(Long bno);
 
-    void modify(ReplyDTO replyDTO);
+    Long modify(ReplyDTO replyDTO);
 
     void remove(Long rno);
 
