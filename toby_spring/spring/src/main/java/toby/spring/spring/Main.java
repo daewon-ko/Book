@@ -1,7 +1,7 @@
 package toby.spring.spring;
 
 import toby.spring.spring.domain.user.User;
-import toby.spring.spring.domain.user.UserDao;
+import toby.spring.spring.domain.dao.UserDao;
 
 import java.sql.SQLException;
 

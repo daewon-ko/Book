@@ -1,10 +1,19 @@
-package toby.spring.spring.domain.user;
+package toby.spring.spring.domain.dao;
+
+import toby.spring.spring.domain.connectionmaker.SimpleConnectionMaker;
+import toby.spring.spring.domain.user.User;
 
 import java.sql.*;
 
 public class UserDao {
+    private SimpleConnectionMaker connectionMaker;
+
+    public UserDao() {
+        this.connectionMaker = new SimpleConnectionMaker();
+    }
+
     public void add(User user) throws ClassNotFoundException, SQLException {
-        Connection c = getConnection();
+        Connection c = connectionMaker.makeConnection();
         PreparedStatement ps = c.prepareStatement(
                 "insert into users(id, name, password) values (?,?,?)");
         ps.setString(1, user.getId());
@@ -19,7 +28,7 @@ public class UserDao {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Connection c = getConnection();
+        Connection c = connectionMaker.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "select * from users where id = ?"
@@ -40,10 +49,5 @@ public class UserDao {
         return user;
     }
 
-    private Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/toby_spring?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC", "root", "test1234");
-        return c;
-    }
 
 }
