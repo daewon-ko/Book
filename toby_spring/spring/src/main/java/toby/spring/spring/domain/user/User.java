@@ -1,4 +1,4 @@
-package toby.spring.spring.domain;
+package toby.spring.spring.domain.user;
 
 import lombok.Getter;
 import lombok.Setter;
