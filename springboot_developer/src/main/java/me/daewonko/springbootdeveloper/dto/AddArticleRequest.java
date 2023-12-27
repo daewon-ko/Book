@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.daewonko.springbootdeveloper.domain.Article;
+import org.springframework.context.annotation.Configuration;
 
 @NoArgsConstructor
 @AllArgsConstructor
