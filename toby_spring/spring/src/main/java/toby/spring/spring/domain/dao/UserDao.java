@@ -1,15 +1,17 @@
 package toby.spring.spring.domain.dao;
 
-import toby.spring.spring.domain.connectionmaker.SimpleConnectionMaker;
+import toby.spring.spring.domain.connectionmaker.ConnectionMaker;
+import toby.spring.spring.domain.connectionmaker.DConnectionMaker;
 import toby.spring.spring.domain.user.User;
 
 import java.sql.*;
 
 public class UserDao {
-    private SimpleConnectionMaker connectionMaker;
+    private ConnectionMaker connectionMaker;
 
-    public UserDao() {
-        this.connectionMaker = new SimpleConnectionMaker();
+    public UserDao(ConnectionMaker connectionMaker) {
+        // 생성자에서 ConnectionMaker를 초기화하는데, 구체클래스에 의존한다. 해결책은?
+        this.connectionMaker = connectionMaker;
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
