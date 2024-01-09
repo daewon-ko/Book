@@ -1,4 +1,4 @@
-package toby.spring.spring.domain.dao;
+package toby.spring.spring.domain.strategy;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
