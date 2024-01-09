@@ -7,13 +7,14 @@ import toby.spring.spring.domain.user.User;
 import javax.sql.DataSource;
 import java.sql.*;
 
-public class UserDao {
+public  class UserDao {
     private DataSource dataSource;
 
     public UserDao(DataSource dataSource) {
         // 생성자에서 ConnectionMaker를 초기화하는데, 구체클래스에 의존한다. 해결책은?
         this.dataSource = dataSource;
     }
+
 
     public void add(User user) throws ClassNotFoundException, SQLException {
         Connection c = dataSource.getConnection();
@@ -65,7 +66,7 @@ public class UserDao {
             return rs.getInt(1);
         } catch (SQLException e) {
             throw e;
-        }finally {
+        } finally {
 
             if (rs != null) {
                 try {
@@ -91,17 +92,17 @@ public class UserDao {
         }
     }
 
-    public void deleteAll() throws SQLException {
+    public void jdbcContextWithStatementStrategy(StatementStrategy statementStrategy) throws SQLException {
         Connection c = null;
         PreparedStatement ps = null;
 
         try {
             c = dataSource.getConnection();
-            ps = c.prepareStatement("delete from users");
+            ps = statementStrategy.makePreparedStatement(c);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw e;
-        }finally {
+        } finally {
             if (ps != null) {
                 try {
                     ps.close();
@@ -117,6 +118,11 @@ public class UserDao {
                 }
             }
         }
+    }
+
+    public void deleteAll() throws SQLException {
+        StatementStrategy statementStrategy = new DeleteAllStatement();
+        jdbcContextWithStatementStrategy(statementStrategy);
     }
 
 
