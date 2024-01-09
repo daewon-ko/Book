@@ -1,6 +1,5 @@
 package toby.spring.spring.domain.dao;
 
-import toby.spring.spring.domain.strategy.AddStatement;
 import toby.spring.spring.domain.strategy.DeleteAllStatement;
 import toby.spring.spring.domain.strategy.StatementStrategy;
 import toby.spring.spring.domain.user.User;
@@ -18,19 +17,18 @@ public  class UserDao {
 
 
     public void add(final User user) throws ClassNotFoundException, SQLException {
-         class AddStatement implements StatementStrategy{
-
-
+        StatementStrategy statementStrategy = new StatementStrategy() {
             @Override
             public PreparedStatement makePreparedStatement(final Connection connection) throws SQLException {
-                PreparedStatement ps = connection.prepareStatement("insert into (id, name, password) values (?,?,?)");
+                PreparedStatement ps = connection.prepareStatement("insert into users(id, name, password) values (?, ?, ?)");
                 ps.setString(1, user.getId());
                 ps.setString(2, user.getName());
-                ps.setString(3, user.getPassword());
+                ps.setString(3, user.getName());
+
                 return ps;
             }
-        }
-        StatementStrategy statementStrategy = new AddStatement();
+        };
+
         jdbcContextWithStatementStrategy(statementStrategy);
     }
 
