@@ -2,31 +2,25 @@ package toby.spring.spring.domain.dao;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import toby.spring.spring.domain.connectionmaker.ConnectionMaker;
+import toby.spring.spring.domain.connectionmaker.CountingConnectionMaker;
 import toby.spring.spring.domain.connectionmaker.DConnectionMaker;
 
-import javax.sql.DataSource;
+import java.util.concurrent.ConcurrentNavigableMap;
 
 @Configuration
-public class DaoFactory {
+public class CountingDaoFactory {
     @Bean
     public UserDao userDao() {
-        return new UserDao(datasource());
-    }
-
-    @Bean
-    public DataSource datasource() {
-        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-
-        dataSource.setDriverClass(com.mysql.cj.jdbc.Driver.class);
-
-
-
+        return new UserDao(connectionMaker());
     }
 
     @Bean
     public ConnectionMaker connectionMaker() {
+        return new CountingConnectionMaker(realConnectionMaker());
+    }
+    @Bean
+    public ConnectionMaker realConnectionMaker() {
         return new DConnectionMaker();
     }
 }

@@ -4,18 +4,19 @@ import toby.spring.spring.domain.connectionmaker.ConnectionMaker;
 import toby.spring.spring.domain.connectionmaker.DConnectionMaker;
 import toby.spring.spring.domain.user.User;
 
+import javax.sql.DataSource;
 import java.sql.*;
 
 public class UserDao {
-    private ConnectionMaker connectionMaker;
+    private DataSource dataSource;
 
-    public UserDao(ConnectionMaker connectionMaker) {
+    public UserDao(DataSource dataSource) {
         // 생성자에서 ConnectionMaker를 초기화하는데, 구체클래스에 의존한다. 해결책은?
-        this.connectionMaker = connectionMaker;
+        this.dataSource = dataSource;
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
-        Connection c = connectionMaker.makeConnection();
+        Connection c = dataSource.getConnection();
         PreparedStatement ps = c.prepareStatement(
                 "insert into users(id, name, password) values (?,?,?)");
         ps.setString(1, user.getId());
@@ -30,7 +31,7 @@ public class UserDao {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Connection c = connectionMaker.makeConnection();
+        Connection c = dataSource.getConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "select * from users where id = ?"

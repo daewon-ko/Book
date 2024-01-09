@@ -1,4 +1,4 @@
-package toby.spring.spring;
+package toby.spring.spring.domain.dao;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
