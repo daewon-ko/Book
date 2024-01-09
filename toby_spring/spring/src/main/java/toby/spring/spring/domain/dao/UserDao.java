@@ -1,6 +1,5 @@
 package toby.spring.spring.domain.dao;
 
-import toby.spring.spring.domain.strategy.DeleteAllStatement;
 import toby.spring.spring.domain.strategy.StatementStrategy;
 import toby.spring.spring.domain.user.User;
 
@@ -122,7 +121,12 @@ public  class UserDao {
     }
 
     public void deleteAll() throws SQLException {
-        StatementStrategy statementStrategy = new DeleteAllStatement();
+        StatementStrategy statementStrategy = new StatementStrategy() {
+            @Override
+            public PreparedStatement makePreparedStatement(final Connection connection) throws SQLException {
+                return connection.prepareStatement("delete from users");
+            }
+        };
         jdbcContextWithStatementStrategy(statementStrategy);
     }
 
