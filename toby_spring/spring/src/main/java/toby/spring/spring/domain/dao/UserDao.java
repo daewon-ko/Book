@@ -6,17 +6,20 @@ import toby.spring.spring.domain.user.User;
 import javax.sql.DataSource;
 import java.sql.*;
 
-public  class UserDao {
+public class UserDao {
+    private JdbcContext jdbcContext;
     private DataSource dataSource;
 
-    public UserDao(DataSource dataSource) {
-        // 생성자에서 ConnectionMaker를 초기화하는데, 구체클래스에 의존한다. 해결책은?
+    public void setDataSource(final DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    public void setJdbcContext(final JdbcContext jdbcContext) {
+        this.jdbcContext = jdbcContext;
+    }
 
     public void add(final User user) throws ClassNotFoundException, SQLException {
-        StatementStrategy statementStrategy = new StatementStrategy() {
+        jdbcContext.workWithStatementStrategy(new StatementStrategy() {
             @Override
             public PreparedStatement makePreparedStatement(final Connection connection) throws SQLException {
                 PreparedStatement ps = connection.prepareStatement("insert into users(id, name, password) values (?, ?, ?)");
@@ -26,12 +29,11 @@ public  class UserDao {
 
                 return ps;
             }
-        };
-
-        jdbcContextWithStatementStrategy(statementStrategy);
+        });
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
+
         Connection c = dataSource.getConnection();
 
         PreparedStatement ps = c.prepareStatement(
@@ -52,6 +54,7 @@ public  class UserDao {
 
         return user;
     }
+
 
     public int getCount() throws SQLException {
         Connection c = null;
@@ -92,43 +95,14 @@ public  class UserDao {
         }
     }
 
-    public void jdbcContextWithStatementStrategy(StatementStrategy statementStrategy) throws SQLException {
-        Connection c = null;
-        PreparedStatement ps = null;
-
-        try {
-            c = dataSource.getConnection();
-            ps = statementStrategy.makePreparedStatement(c);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw e;
-        } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-
-                }
-            }
-            if (c != null) {
-                try {
-                    c.close();
-                } catch (SQLException e) {
-
-                }
-            }
-        }
-    }
 
     public void deleteAll() throws SQLException {
-        StatementStrategy statementStrategy = new StatementStrategy() {
+
+        jdbcContext.workWithStatementStrategy(new StatementStrategy() {
             @Override
             public PreparedStatement makePreparedStatement(final Connection connection) throws SQLException {
                 return connection.prepareStatement("delete from users");
             }
-        };
-        jdbcContextWithStatementStrategy(statementStrategy);
+        });
     }
-
-
 }
