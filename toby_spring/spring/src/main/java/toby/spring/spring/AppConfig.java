@@ -10,12 +10,12 @@ import javax.sql.DataSource;
 
 @Configuration
 public class AppConfig {
-    @Bean
-    public JdbcContext jdbcContext() {
-        JdbcContext jdbcContext = new JdbcContext();
-        jdbcContext.setDataSource(dataSource());
-        return jdbcContext;
-    }
+//    @Bean
+//    public JdbcContext jdbcContext() {
+//        JdbcContext jdbcContext = new JdbcContext();
+//        jdbcContext.setDataSource(dataSource());
+//        return jdbcContext;
+//    }
 
     @Bean
     public DataSource dataSource() {
@@ -25,7 +25,6 @@ public class AppConfig {
     @Bean
     public UserDao userDao() {
         UserDao userDao = new UserDao();
-        userDao.setJdbcContext(jdbcContext());
         userDao.setDataSource(dataSource());
         return userDao;
     }

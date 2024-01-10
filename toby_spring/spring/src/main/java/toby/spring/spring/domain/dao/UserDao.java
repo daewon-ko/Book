@@ -11,12 +11,14 @@ public class UserDao {
     private DataSource dataSource;
 
     public void setDataSource(final DataSource dataSource) {
+        jdbcContext= new JdbcContext();
+        jdbcContext.setDataSource(dataSource);
         this.dataSource = dataSource;
     }
 
-    public void setJdbcContext(final JdbcContext jdbcContext) {
-        this.jdbcContext = jdbcContext;
-    }
+//    public void setJdbcContext(final JdbcContext jdbcContext) {
+//        this.jdbcContext = jdbcContext;
+//    }
 
     public void add(final User user) throws ClassNotFoundException, SQLException {
         jdbcContext.workWithStatementStrategy(new StatementStrategy() {
