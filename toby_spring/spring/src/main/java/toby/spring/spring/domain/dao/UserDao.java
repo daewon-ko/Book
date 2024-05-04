@@ -11,7 +11,7 @@ public class UserDao {
     private DataSource dataSource;
 
     public void setDataSource(final DataSource dataSource) {
-        jdbcContext= new JdbcContext();
+        jdbcContext = new JdbcContext();
         jdbcContext.setDataSource(dataSource);
         this.dataSource = dataSource;
     }
@@ -98,13 +98,23 @@ public class UserDao {
     }
 
 
-    public void deleteAll() throws SQLException {
+    public void deleteAll(final String query) throws SQLException {
+        executeSql("delete from users");
+    }
+
+    public void add(final String query) {
+
+    }
+
+    public void executeSql(final String query) throws SQLException {
 
         jdbcContext.workWithStatementStrategy(new StatementStrategy() {
             @Override
             public PreparedStatement makePreparedStatement(final Connection connection) throws SQLException {
-                return connection.prepareStatement("delete from users");
+                return connection.prepareStatement(query);
             }
         });
     }
+
+
 }

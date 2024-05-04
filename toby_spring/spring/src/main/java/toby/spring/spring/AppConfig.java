@@ -22,7 +22,7 @@ public class AppConfig {
         return new SimpleDriverDataSource();
     }
 
-    @Bean
+    @Bean4
     public UserDao userDao() {
         UserDao userDao = new UserDao();
         userDao.setDataSource(dataSource());
