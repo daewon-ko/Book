@@ -75,4 +75,4 @@
   * 하이퍼바이저는 가상화 계층(Virtualization Layer)을 구현해주는 소프트웨어
   * 즉, 아래의 그림과 같이 하드웨어와 가상머신 사이의 인터페이스 역할을한다. 
 
-![image-20240504162424373](/Users/daewon/Study/Book/Book/OS/혼공컴운/Chapter09/img/image-20240504162424373.png)
+<img width="788" alt="image" src="https://github.com/daewon-ko/Book/assets/105340285/a7493a7b-e075-48c6-a373-d320fa8d7de0">
