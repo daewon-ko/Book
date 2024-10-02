@@ -1,4 +1,4 @@
-package chater2;
+package modernjava.chapter3;
 
 public class AppleGreenColorPredicate implements ApplePredicate{
     @Override

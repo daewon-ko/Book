@@ -1,4 +1,4 @@
-package chater2;
+package modernjava.chapter3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,7 @@ public class Farmer {
     }
 
 
+    // 동작 파라미터화 -> 문제점 : ApplePredicate를 구현하는 클래스를 계속해서 생성해야함.
     public static List<Apple> filterApples(List<Apple> inventory, ApplePredicate predicate) {
         List<Apple> apples = new ArrayList<>();
         for (Apple apple : inventory) {

@@ -1,4 +1,4 @@
-package chater2;
+package modernjava.chapter3;
 
 public enum Color {
     RED, GREEN
