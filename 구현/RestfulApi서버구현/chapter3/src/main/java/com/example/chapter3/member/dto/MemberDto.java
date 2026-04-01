@@ -1,2 +1,9 @@
-package com.example.chapter3.member.dto;public class MemberDto {
+package com.example.chapter3.member.dto;
+
+import lombok.Getter;
+
+@Getter
+public class MemberDto {
+
+
 }
